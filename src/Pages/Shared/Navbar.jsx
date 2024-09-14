@@ -1,8 +1,18 @@
+import { useContext } from "react";
 import logo from "../../../src/assets/logo.png";
 import userdefaultPic from "../../../src/assets/user.png";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProviders";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    logOut()
+      .then()
+      .catch(error => console.error("Sign out error: ", error));
+  };
+
   const navLinks = (
     <>
       <li>
@@ -15,8 +25,8 @@ const Navbar = () => {
         <NavLink to="/joinAsHR">Join as HR Manager</NavLink>
       </li>
       {/* <li>
-			<NavLink to="/manageMyFoods">Borrowed Books</NavLink>
-		  </li> */}
+        <NavLink to="/manageMyFoods">Borrowed Books</NavLink>
+      </li> */}
     </>
   );
 
@@ -48,9 +58,9 @@ const Navbar = () => {
           </ul>
         </div>
         <a className="flex items-center btn btn-ghost text-2xl font-bold">
-          <img src={logo} alt="ReeFood Logo" className="w-8 h-8 mr-" />
+          <img src={logo} alt="WorkKit Logo" className="w-8 h-8 mr-2" />
           <span className="text-green-300">Work</span>
-          <span className="text-green-600 font-bold ml-[-9px]">Kit</span>
+          <span className="text-green-600 font-bold">Kit</span>
         </a>
       </div>
 
@@ -59,26 +69,24 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
-        {/* {user ? (
-            <div className="flex mr-2">
-              <div className="w-10 rounded-full md:tooltip md:tooltip-left" data-tip={user.displayName}>
-                <img alt="Tailwind CSS Navbar component" src={user?.photoURL? user.photoURL : {userdefaultPic}} className="rounded-full mr-1" />
-              </div>
-              <button onClick={handleSignOut} className="btn btn-primary">
-                Sign Out
-              </button>
+        {user ? (
+          <div className="flex items-center">
+            <div className="w-10 rounded-full md:tooltip md:tooltip-left" data-tip={user.displayName}>
+              <img
+                alt="User Profile"
+                src={user.photoURL || userdefaultPic}
+                className="rounded-full w-10 h-10"
+              />
             </div>
-          ) : (
-            <Link to="/login">
-              <button className="btn btn-primary">Login</button>
-            </Link>
-          )}   */}
-        <div className="w-10 rounded-full md:tooltip md:tooltip-left"></div>
-        <img
-          alt="Tailwind CSS Navbar component"
-          src={userdefaultPic}
-          className="rounded-full mr-1"
-        />
+            <button onClick={handleSignOut} className="btn btn-primary ml-4">
+              Sign Out
+            </button>
+          </div>
+        ) : (
+          <Link to="/login">
+            <button className="btn btn-primary">Login</button>
+          </Link>
+        )}
       </div>
     </div>
   );
