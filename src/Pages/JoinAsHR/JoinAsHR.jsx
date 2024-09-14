@@ -1,33 +1,32 @@
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from 'sweetalert2';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const JoinAsHR = () => {
   const { createUser } = useContext(AuthContext);
 
-  // State management
   const [registerError, setRegisterError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Handle form submission
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget);
+  const handleSignUp = async (event) => {
+    event.preventDefault();
 
-    // Extract form values
-    const name = form.get('name');
-    const company = form.get('company');
-    const dob = form.get('dob');
-    const email = form.get('email');
-    const password = form.get('password');
-    const companyLogo = form.get('companyLogo');
-    const packageType = form.get('package');
-
-    // Validate password
+    const form = event.target;
+    const name = form.name.value.trim();
+    const company = form.company.value.trim();
+    const dob = new Date(form.dob.value);
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    const companyLogo = form.companyLogo.value.trim();
+    const packageType = form.package.value;
+    
     setRegisterError("");
     setSuccess("");
+
+    // Validate password
     if (password.length < 6) {
       setRegisterError("Password should be at least 6 characters long");
       return;
@@ -39,22 +38,58 @@ const JoinAsHR = () => {
       return;
     }
 
-    // Call createUser method from AuthContext
-    createUser(email, password)
-      .then(result => {
-        console.log(result.user);
-        setSuccess("User Created Successfully");
-      })
-      .catch(error => {
-        console.error(error);
-        setRegisterError(error.message);
+	// Prepare user data
+      const User = {
+        name,
+        company,
+        dob,
+        email,
+        companyLogo,
+        package: packageType,
+        role: 'HR'
+      };
+    console.log(User);
+
+    try {
+      // Create user with AuthContext
+      await createUser(email, password);
+
+      // POST api. Send user data to the database
+      const response = await fetch('http://localhost:4000/addUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(User),
       });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Success in post user data', data);
+
+      if (data.insertedId) {
+        Swal.fire({
+          title: "Success!",
+          text: "Sign Up Successful",
+          icon: "success",
+          confirmButtonText: 'OK',
+        });
+        setSuccess("User Created Successfully");
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      setRegisterError(error.message);
+    }
   };
 
   return (
     <div className="pt-16">
       <h2 className="text-3xl my-10 text-center font-bold">Join As An HR Manager</h2>
-      <form onSubmit={handleRegister} className="md:w-3/4 lg:w-1/2 mx-auto">
+      <form onSubmit={handleSignUp} className="md:w-3/4 lg:w-1/2 mx-auto">
         <div className="form-control">
           <label className="label">
             <span className="label-text">Name</span>
@@ -107,7 +142,6 @@ const JoinAsHR = () => {
             <span className="label-text">Password</span>
           </label>
 
-          {/* Toggle show password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -163,7 +197,7 @@ const JoinAsHR = () => {
 
         <div className="form-control mt-6">
           <button type="submit" className="btn btn-primary">
-             Sign Up
+            Sign Up
           </button>
         </div>
       </form>
