@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="pt-16">
       <h2 className="text-3xl my-10 text-center font-bold">Please Login</h2>
       <form onSubmit={handleLogin} className="md:w-3/4 lg:w-1/2 mx-auto">
         <div className="form-control">
@@ -110,8 +110,8 @@ const Login = () => {
 
         <p className="text-center mt-4">
           Do not have an account?
-          <Link className="text-blue-600 font-bold ml-1" to="/register">
-            Register
+          <Link className="text-blue-600 font-bold ml-1" to="/joinAsEmployee">
+            Sign Up
           </Link>
         </p>
       </form>

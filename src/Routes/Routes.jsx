@@ -31,10 +31,6 @@ import ErrorPage from "../Route/ErrorPage";
         {
             path: '/login',
             element: <Login></Login>
-        },
-        {
-            path: '/register',
-            element: <Register></Register>
         }
       ]
     }
