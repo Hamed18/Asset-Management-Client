@@ -1,10 +1,15 @@
 import Banner from "../../Shared/Banner";
+import AboutUs from "./AboutUs";
+import Packages from "./Packages";
+import Testimonials from "./Testimonials";
 
 const Home = () => {
 	return (
 		<div>
 			<Banner></Banner>
-			<h3 className="text-center">Home</h3>
+			<AboutUs></AboutUs>
+			<Packages></Packages>
+			{/* <Testimonials></Testimonials> */}
 		</div>
 	);
 };
