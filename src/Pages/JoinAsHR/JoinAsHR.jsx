@@ -1,7 +1,7 @@
 
 const JoinAsHR = () => {
 	return (
-		<div>
+		<div className="">
 			<h3 className="text-center">Join As HR</h3>
 		</div>
 	);

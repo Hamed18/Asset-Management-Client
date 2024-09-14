@@ -7,12 +7,14 @@ import JoinAsEmployee from "../Pages/JoinAsEmployee/JoinAsEmployee";
 import JoinAsHR from "../Pages/JoinAsHR/JoinAsHR";
 import Login from "../Pages/Authentication/Login";
 import Register from "../Pages/Authentication/Register";
+import ErrorPage from "../Route/ErrorPage";
 
 
   export const router = createBrowserRouter([
     {
       path: "/",
       element: <Main></Main>,
+	  errorElement: <ErrorPage></ErrorPage>,
       children: [
         {
             path: '/',
