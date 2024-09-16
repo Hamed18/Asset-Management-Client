@@ -3,19 +3,29 @@ import logo from "../../../src/assets/logo.png";
 import userdefaultPic from "../../../src/assets/user.png";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
+import useHR from "../../hooks/useHR";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  // const [isHR] = useHR();
 
   // Initialize as an empty object
-  const [userData, setUser] = useState({});
+  const [isHR, setHR] = useState(false);
   
   useEffect(() => {
     if (user && user.email) {
       const url = `http://localhost:4000/users/${user.email}`;
       fetch(url)
         .then((res) => res.json())
-        .then((data) => setUser(data))
+        .then((data) => {
+          console.log('query by email successful',data);
+          if (data && data.role === 'HR'){
+            setHR(true);
+          } 
+          else {
+            setHR(false);
+          }
+        })
         .catch((error) => console.error("Error fetching user data: ", error));
     }
   }, [user]);
@@ -31,6 +41,12 @@ const Navbar = () => {
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
+        {
+            user && isHR && <li><Link to="/dashboard/HRhome">HR Dashboard</Link></li>
+        }
+        {
+            user && !isHR && <li><Link to="/dashboard/employeeHome">Employee Dashboard</Link></li>
+        }
       <li>
         <NavLink to="/joinAsEmployee">Join as Employee</NavLink>
       </li>

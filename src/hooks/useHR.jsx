@@ -12,7 +12,7 @@ const useHR = () => {
 			queryFn : async () => {
 				console.log('asking or checking is HR', user)
 				const res = await axiosSecure.get(`/users/${user.email}`);
-				return res.data?.role === "HR";
+				return res.data?.role;
 			}
 		}
 	)

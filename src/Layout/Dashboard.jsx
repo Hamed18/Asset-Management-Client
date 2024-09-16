@@ -8,11 +8,30 @@ import {
 	FaShoppingCart,
 	FaAd,
   } from "react-icons/fa";
-  import { NavLink, Outlet } from "react-router-dom";
-  import useHR from "../hooks/useHR";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import useHR from "../hooks/useHR";
+import useAuth from "../hooks/useAuth";
   
   const Dashboard = () => {
+	const auth = useAuth();
+	const {user} = auth;
 	const [isHR] = useHR();
+
+	if(isHR==='HR'){
+		console.log("HR dashboard");
+	}
+
+	const {logOut} = useAuth();  // hook
+	const navigate = useNavigate();
+	const handleSignOut = () => {
+		logOut()
+		  .then( () => {
+			navigate('/');  // after logout redirect to main home
+		  }
+		  )
+		  .catch((error) => console.error("Sign out error: ", error));
+	};
+	
 	return (
 	  <div className="flex">
 		{/* dashboard side bar */}
@@ -23,7 +42,7 @@ import {
 				{/* HR */}
 				<li>
 				  <NavLink to="/dashboard/HRhome">
-					<FaHome /> Home
+					<FaHome /> HR Dashboard
 				  </NavLink>
 				</li>
 				<li>
@@ -51,7 +70,7 @@ import {
 			  <>
 				<li>
 				  <NavLink to="/dashboard/employeeHome">
-					<FaHome /> Home
+					<FaHome /> Employee Dashboard
 				  </NavLink>
 				</li>
 				<li>
@@ -75,10 +94,21 @@ import {
 			<div className="divider"></div>
 			<li>
 			  <NavLink to="/">
-				<FaHome /> Home
+				<FaHome />Main Home
 			  </NavLink>
 			</li>
+			<li>
+              <button onClick={handleSignOut} className="btn btn-primary">
+                Sign Out
+              </button>
+			</li>
 		  </ul>
+		  <br />
+		  <div className="mx-2 text-center">
+			<h3>Your Profile</h3>
+			<h3>Name: {user.displayName}</h3>
+			<h3>Email: {user.email}</h3>
+		  </div>
 		</div>
 		{/* dashboard content */}
 		<div className="flex-1 p-8">
