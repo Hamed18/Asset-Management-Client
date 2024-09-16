@@ -4,9 +4,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const JoinAsEmployee = () => {
   const { createUser } = useContext(AuthContext);
+
+  const axiosSecure = useAxiosSecure();
 
   //redirect to home page after login
   const location = useLocation();
@@ -59,7 +62,7 @@ const JoinAsEmployee = () => {
     await createUser(email, password);
 
     // POST api. Send user data to the database
-    const response = await axios.post('http://localhost:4000/addUser',User);
+    const response = await axiosSecure.post('/addUser',User);
     console.log('Success in post user data', response.data);
 
     // Auth redirect after login with password

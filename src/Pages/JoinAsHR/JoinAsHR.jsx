@@ -3,7 +3,7 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const JoinAsHR = () => {
   const { createUser } = useContext(AuthContext);
@@ -11,6 +11,8 @@ const JoinAsHR = () => {
   const [registerError, setRegisterError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const axiosSecure = useAxiosSecure();
 
   //redirect to home page after login
   const location = useLocation();
@@ -63,7 +65,7 @@ const JoinAsHR = () => {
       await createUser(email, password);
 
       // POST api using axios
-      const response = await axios.post('http://localhost:4000/addUser', User);
+      const response = await axiosSecure.post('/addUser', User);
 
       console.log('Success in post user data', response.data);
 
