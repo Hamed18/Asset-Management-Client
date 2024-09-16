@@ -103,10 +103,10 @@ const Login = () => {
           <button className="btn btn-primary">Login</button>
         </div>
 
-		{/* google sign in */}
-		<div>  
+		    {/* google sign in */}
+		    {/* <div>  
             <button className="btn btn-primary flex justify-center items-center my-4" onClick={handleGoogleSignIn}>Google Sign In</button>
-        </div>
+        </div> */}
 
         <p className="text-center mt-4">
           Do not have an account?

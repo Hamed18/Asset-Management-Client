@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import logo from "../../../src/assets/logo.png";
 import userdefaultPic from "../../../src/assets/user.png";
 import { Link, NavLink } from "react-router-dom";
@@ -6,6 +6,18 @@ import { AuthContext } from "../../Providers/AuthProviders";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+//  console.log(`user logged in email, ${user.email}`);
+
+  const [User,setUser]=useState([]);
+	useEffect(() => {
+    if (user && user.email) { // Check if user exists and has an email
+      const url = `http://localhost:4000/users/${user.email}`;
+      fetch(url)
+        .then(res => res.json())
+        .then(data => setUser(data))
+        .catch(error => console.error("Error fetching user data: ", error));
+    }
+  }, [user]);
 
   const handleSignOut = () => {
     logOut()
@@ -24,9 +36,6 @@ const Navbar = () => {
       <li>
         <NavLink to="/joinAsHR">Join as HR Manager</NavLink>
       </li>
-      {/* <li>
-        <NavLink to="/manageMyFoods">Borrowed Books</NavLink>
-      </li> */}
     </>
   );
 
