@@ -6,3 +6,5 @@
 # sweet alert 2: npm i sweetalert2
 # Axios: https://axios-http.com/docs/intro
  install :  npm install axios
+# tanstack query: https://tanstack.com/query/latest/docs/framework/react/installation
+ install :  npm i @tanstack/react-query
