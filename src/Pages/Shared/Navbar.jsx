@@ -1,29 +1,37 @@
 import { useContext, useEffect, useState } from "react";
-import logo from "../../../src/assets/logo.png";
-import userdefaultPic from "../../../src/assets/user.png";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
-import useHR from "../../hooks/useHR";
+import logoXYZ from "../../../src/assets/logo.png"; // Default logo for service provider
+import userdefaultPic from "../../../src/assets/user.png";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  // const [isHR] = useHR();
-
-  // Initialize as an empty object
   const [isHR, setHR] = useState(false);
-  
+  const [companyLogo, setCompanyLogo] = useState(logoXYZ); // Default logo
+
   useEffect(() => {
     if (user && user.email) {
       const url = `http://localhost:4000/users/${user.email}`;
       fetch(url)
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
         .then((data) => {
-          console.log('query by email successful',data);
-          if (data && data.role === 'HR'){
-            setHR(true);
-          } 
-          else {
-            setHR(false);
+          console.log('Query by email successful', data);
+          if (data) {
+            if (data.role === 'HR') {
+              setHR(true);
+              setCompanyLogo(data.companyLogo || logoXYZ); // Set company logo for HR
+            } else if (data.role === 'Employee') {
+              setHR(false);
+              setCompanyLogo(data.companyLogo || logoXYZ); // Set company logo for Employee
+            } else {
+              setHR(false);
+              setCompanyLogo(logoXYZ); // Default logo if no affiliation
+            }
           }
         })
         .catch((error) => console.error("Error fetching user data: ", error));
@@ -36,22 +44,49 @@ const Navbar = () => {
       .catch((error) => console.error("Sign out error: ", error));
   };
 
-  const navLinks = (
+  const navLinks = user ? (
     <>
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
-        {
-            user && isHR && <li><Link to="/dashboard/HRhome">HR Dashboard</Link></li>
-        }
-        {
-            user && !isHR && <li><Link to="/dashboard/employeeHome">Employee Dashboard</Link></li>
-        }
+      {isHR ? (
+        <>
+          <li><NavLink to="/dashboard/HRhome">Home</NavLink></li>
+          <li><NavLink to="/dashboard/assetList">Asset List</NavLink></li>
+          <li><NavLink to="/dashboard/addAsset">Add an Asset</NavLink></li>
+          <li><NavLink to="/dashboard/allRequests">All Requests</NavLink></li>
+          <li><NavLink to="/dashboard/myEmployeeList">My Employee List</NavLink></li>
+          <li><NavLink to="/dashboard/addEmployee">Add an Employee</NavLink></li>
+          <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
+        </>
+      ) : (
+        <>
+          <li><NavLink to="/dashboard/employeeHome">Dashboard</NavLink></li>
+          <li><NavLink to="/dashboard/myAssets">My Assets</NavLink></li>
+          <li><NavLink to="/dashboard/myTeam">My Team</NavLink></li>
+          <li><NavLink to="/dashboard/requestForAsset">Request for an Asset</NavLink></li>
+          <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
+        </>
+      )}
+      <li>
+        <button onClick={handleSignOut} className="btn btn-primary">
+          Sign Out
+        </button>
+      </li>
+    </>
+  ) : (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
       <li>
         <NavLink to="/joinAsEmployee">Join as Employee</NavLink>
       </li>
       <li>
         <NavLink to="/joinAsHR">Join as HR Manager</NavLink>
+      </li>
+      <li>
+        <NavLink to="/login">Login</NavLink>
       </li>
     </>
   );
@@ -84,7 +119,7 @@ const Navbar = () => {
           </ul>
         </div>
         <a className="flex items-center btn btn-ghost text-2xl font-bold">
-          <img src={logo} alt="WorkKit Logo" className="w-8 h-8 mr-2" />
+          <img src={companyLogo} alt="Company Logo" className="w-8 h-8 mr-2" />
           <span className="text-green-300">Work</span>
           <span className="text-green-600 font-bold">Kit</span>
         </a>
