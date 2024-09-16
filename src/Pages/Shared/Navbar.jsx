@@ -6,23 +6,24 @@ import { AuthContext } from "../../Providers/AuthProviders";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-//  console.log(`user logged in email, ${user.email}`);
 
-  const [User,setUser]=useState([]);
-	useEffect(() => {
-    if (user && user.email) { // Check if user exists and has an email
+  // Initialize as an empty object
+  const [userData, setUser] = useState({});
+  
+  useEffect(() => {
+    if (user && user.email) {
       const url = `http://localhost:4000/users/${user.email}`;
       fetch(url)
-        .then(res => res.json())
-        .then(data => setUser(data))
-        .catch(error => console.error("Error fetching user data: ", error));
+        .then((res) => res.json())
+        .then((data) => setUser(data))
+        .catch((error) => console.error("Error fetching user data: ", error));
     }
   }, [user]);
 
   const handleSignOut = () => {
     logOut()
       .then()
-      .catch(error => console.error("Sign out error: ", error));
+      .catch((error) => console.error("Sign out error: ", error));
   };
 
   const navLinks = (
@@ -80,7 +81,10 @@ const Navbar = () => {
       <div className="navbar-end">
         {user ? (
           <div className="flex items-center">
-            <div className="w-10 rounded-full md:tooltip md:tooltip-left" data-tip={user.displayName}>
+            <div
+              className="w-10 rounded-full md:tooltip md:tooltip-left"
+              data-tip={user.displayName}
+            >
               <img
                 alt="User Profile"
                 src={user.photoURL || userdefaultPic}
