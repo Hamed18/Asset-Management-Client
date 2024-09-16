@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const JoinAsHR = () => {
   const { createUser } = useContext(AuthContext);
@@ -10,6 +10,13 @@ const JoinAsHR = () => {
   const [registerError, setRegisterError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  //redirect to home page after login
+  const location = useLocation();
+  console.log('location in the login page', location);
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -69,6 +76,9 @@ const JoinAsHR = () => {
 
       const data = await response.json();
       console.log('Success in post user data', data);
+
+      // Auth redirect after login with password
+      navigate(from, { replace: true });
 
       if (data.insertedId) {
         Swal.fire({

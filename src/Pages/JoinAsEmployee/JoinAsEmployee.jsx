@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../Providers/AuthProviders";
@@ -6,6 +6,13 @@ import Swal from "sweetalert2";
 
 const JoinAsEmployee = () => {
   const { createUser } = useContext(AuthContext);
+
+  //redirect to home page after login
+  const location = useLocation();
+  console.log('location in the login page', location);
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
 
   // Password Verification and Toggle Password
   const [registerError, setRegisterError] = useState("");
@@ -65,6 +72,10 @@ const JoinAsEmployee = () => {
 
     const data = await response.json();
     console.log('Success in post user data', data);
+
+    // Auth redirect after login with password
+    navigate(from, { replace: true });
+
 
     if (data.insertedId) {
       Swal.fire({

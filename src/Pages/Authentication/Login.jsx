@@ -4,14 +4,16 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import app from "../../Firebase/firebase.config";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
 
-  //redirect
+  //redirect to home page after login
   const location = useLocation();
   console.log('location in the login page', location);
   const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
 
   // toggle show password
   const [showPassword, setShowPassword] = useState(false);
@@ -29,9 +31,18 @@ const Login = () => {
 
     signIn(email, password) // calling signIn function from Authprovider.jsx
       .then((result) => {
-       // console.log(result.user);
-	   // Auth redirect after login with password
-       navigate(location?.state? location.state : '/');  
+        console.log(result.user);
+        Swal.fire({
+          title: 'User Login Successful.',
+          showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+          }
+      });
+	    // Auth redirect after login with password
+      navigate(from, { replace: true });
       })
       .catch((error) => {
         console.error(error);
@@ -47,8 +58,9 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-		// Auth redirect after login with password
-		navigate(location?.state? location.state : '/');  
+        
+	    // Auth redirect after login with password
+      navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log("error", error.message);
