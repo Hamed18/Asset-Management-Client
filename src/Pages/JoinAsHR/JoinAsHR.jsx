@@ -3,6 +3,7 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const JoinAsHR = () => {
   const { createUser } = useContext(AuthContext);
@@ -17,7 +18,6 @@ const JoinAsHR = () => {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
-
   const handleSignUp = async (event) => {
     event.preventDefault();
 
@@ -29,7 +29,7 @@ const JoinAsHR = () => {
     const password = form.password.value;
     const companyLogo = form.companyLogo.value.trim();
     const packageType = form.package.value;
-    
+
     setRegisterError("");
     setSuccess("");
 
@@ -45,42 +45,32 @@ const JoinAsHR = () => {
       return;
     }
 
-	// Prepare user data
-      const User = {
-        name,
-        company,
-        dob,
-        email,
-        companyLogo,
-        package: packageType,
-        role: 'HR'
-      };
+    // Prepare user data
+    const User = {
+      name,
+      company,
+      dob,
+      email,
+      companyLogo,
+      package: packageType,
+      role: 'HR',
+    };
+    
     console.log(User);
 
     try {
       // Create user with AuthContext
       await createUser(email, password);
 
-      // POST api. Send user data to the database
-      const response = await fetch('http://localhost:4000/addUser', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(User),
-      });
+      // POST api using axios
+      const response = await axios.post('http://localhost:4000/addUser', User);
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log('Success in post user data', data);
+      console.log('Success in post user data', response.data);
 
       // Auth redirect after login with password
       navigate(from, { replace: true });
 
-      if (data.insertedId) {
+      if (response.data.insertedId) {
         Swal.fire({
           title: "Success!",
           text: "Sign Up as an HR Successful",
@@ -89,7 +79,6 @@ const JoinAsHR = () => {
         });
         setSuccess("User Created Successfully");
       }
-
     } catch (error) {
       console.error('Error:', error);
       setRegisterError(error.message);

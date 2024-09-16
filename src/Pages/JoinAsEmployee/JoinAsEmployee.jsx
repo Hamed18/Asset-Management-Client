@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const JoinAsEmployee = () => {
   const { createUser } = useContext(AuthContext);
@@ -58,26 +59,13 @@ const JoinAsEmployee = () => {
     await createUser(email, password);
 
     // POST api. Send user data to the database
-    const response = await fetch('http://localhost:4000/addUser', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(User),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    console.log('Success in post user data', data);
+    const response = await axios.post('http://localhost:4000/addUser',User);
+    console.log('Success in post user data', response.data);
 
     // Auth redirect after login with password
     navigate(from, { replace: true });
 
-
-    if (data.insertedId) {
+    if (response.data.insertedId) {
       Swal.fire({
         title: "Success!",
         text: "Sign Up as an Employee Successful",
