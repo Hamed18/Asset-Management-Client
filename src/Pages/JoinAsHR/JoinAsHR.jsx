@@ -73,7 +73,7 @@ const JoinAsHR = () => {
       if (data.insertedId) {
         Swal.fire({
           title: "Success!",
-          text: "Sign Up Successful",
+          text: "Sign Up as an HR Successful",
           icon: "success",
           confirmButtonText: 'OK',
         });

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from "sweetalert2";
 
 const JoinAsEmployee = () => {
   const { createUser } = useContext(AuthContext);
@@ -11,7 +12,7 @@ const JoinAsEmployee = () => {
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleRegister = (e) => {
+  const handleRegister = async(e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
 
@@ -35,15 +36,51 @@ const JoinAsEmployee = () => {
       return;
     }
 
-    createUser(email, password)
-      .then(result => {
-        console.log(result.user);
-        setSuccess("User Created Successfully");
-      })
-      .catch(error => {
-        console.error(error);
-        setRegisterError(error.message);
+    // Prepare user data
+    const User = {
+      name,
+      company,
+      dob,
+      email,
+      role: 'Employee'
+    };
+  console.log(User);
+
+  try {
+    // Create user with AuthContext
+    await createUser(email, password);
+
+    // POST api. Send user data to the database
+    const response = await fetch('http://localhost:4000/addUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(User),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log('Success in post user data', data);
+
+    if (data.insertedId) {
+      Swal.fire({
+        title: "Success!",
+        text: "Sign Up as an Employee Successful",
+        icon: "success",
+        confirmButtonText: 'OK',
       });
+      setSuccess("User Created Successfully");
+    }
+
+  } catch (error) {
+    console.error('Error:', error);
+    setRegisterError(error.message);
+  }
+
   };
 
   return (
