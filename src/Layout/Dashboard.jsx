@@ -68,11 +68,11 @@ import useAuth from "../hooks/useAuth";
 			  </>
 			) : (
 			  <>
-				<li>
+				{/* <li>
 				  <NavLink to="/dashboard/employeeHome">
 					<FaHome /> Employee Dashboard
 				  </NavLink>
-				</li>
+				</li> */}
 				<li>
 				  <NavLink to="/dashboard/employeeAssets">
 					<FaCalendar /> My Assets

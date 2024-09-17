@@ -63,7 +63,7 @@ const Navbar = () => {
         <>
           <li><NavLink to="/dashboard">Dashboard</NavLink></li>
           <li><NavLink to="/employeeAssets">My Request</NavLink></li>
-          <li><NavLink to="/myTeam">My Team</NavLink></li>
+          <li><NavLink to="/employeeTeam">My Team</NavLink></li>
           <li><NavLink to="/employeeRequest">Request for an Asset</NavLink></li>
           <li><NavLink to="/employeeProfile">Profile</NavLink></li>
         </>

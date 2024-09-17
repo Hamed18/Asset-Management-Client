@@ -56,7 +56,8 @@ export const router = createBrowserRouter([
         },
         {
           path : 'employeeTeam',
-          element : <MyTeam></MyTeam>
+          element : <MyTeam></MyTeam>,
+          loader: () => fetch('http://localhost:4000/users')
         },
         {
           path : 'employeeRequest',
@@ -81,15 +82,18 @@ export const router = createBrowserRouter([
         },
         {
           path : 'employeeAssets',
-          element : <MyAssets></MyAssets>
+          element : <MyAssets></MyAssets>,
+          loader: () => fetch('http://localhost:4000/allAssets')
         },
         {
           path : 'employeeTeam',
-          element : <MyTeam></MyTeam>
+          element : <MyTeam></MyTeam>,
+          loader: () => fetch('http://localhost:4000/users')
         },
         {
           path : 'employeeRequest',
-          element : <RequestAsset></RequestAsset>
+          element : <RequestAsset></RequestAsset>,
+          loader: () => fetch('http://localhost:4000/allAssets')
         },
         {
           path : 'employeeProfile',
