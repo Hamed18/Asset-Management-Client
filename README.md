@@ -1,3 +1,5 @@
+# Server :  https://asset-management-server-nine.vercel.app/
+# Client: https://asset-management-system-b055d.web.app/
 
 # sliding banner: npm install swiper
 # testimonial: npm install @smastrom/react-rating
