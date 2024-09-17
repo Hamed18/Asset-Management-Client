@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-const RequestModal = ({ asset, user, onClose }) => {
+const RequestModal = ({ asset, user, onClose,id }) => {
   const [notes, setNotes] = useState("");
   const [isRequestSent, setIsRequestSent] = useState(false);
 
@@ -18,20 +18,36 @@ const RequestModal = ({ asset, user, onClose }) => {
 
     console.log("Request Data:", requestData);
 
-    // Simulate API call to submit request
-    setTimeout(() => {
-      setIsRequestSent(true);
-	    Swal.fire({
-          title: 'Your request is Successful.',
-          showClass: {
-              popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-              popup: 'animate__animated animate__fadeOutUp'
-          }
-      });
-      onClose(); // Close the modal after submission
-    }, 1000);
+	fetch(`http://localhost:4000/allAssets/${id}`,{
+		method: 'PATCH',
+		headers: {
+			'content-type': 'application/json'
+		},
+		body: JSON.stringify({Status : 'requested'})
+	})
+	.then(res => res.json())
+	.then(data => {
+		console.log(data);
+		if (data.modifiedCount > 0){
+			    // Simulate API call to submit request
+				setTimeout(() => {
+					setIsRequestSent(true);
+					  Swal.fire({
+						title: 'Your request is Successful.',
+						showClass: {
+							popup: 'animate__animated animate__fadeInDown'
+						},
+						hideClass: {
+							popup: 'animate__animated animate__fadeOutUp'
+						}
+					});
+					onClose(); // Close the modal after submission
+				  }, 1000);
+			  
+		}
+
+	}) 
+
   };
 
   return (

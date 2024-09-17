@@ -11,10 +11,12 @@ const RequestAsset = () => {
   const { user } = useContext(AuthContext); // Assuming user is fetched from context
   const [selectedAsset, setSelectedAsset] = useState(null); // Track the asset being requested
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ID,setID] = useState();
 
   const handleRequest = (asset) => {
     setSelectedAsset(asset);
     setIsModalOpen(true); // Open modal
+	setID(asset._id);
   };
 
   return (
@@ -50,6 +52,7 @@ const RequestAsset = () => {
         <RequestModal
 		asset={selectedAsset}
 		user={user}
+		id = {ID}
 		onClose={() => setIsModalOpen(false)}
        >
 		</RequestModal>

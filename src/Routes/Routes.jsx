@@ -51,7 +51,8 @@ export const router = createBrowserRouter([
         },
         {
           path : 'employeeAssets',
-          element : <MyAssets></MyAssets>
+          element : <MyAssets></MyAssets>,
+          loader: () => fetch('http://localhost:4000/allAssets')
         },
         {
           path : 'employeeTeam',
