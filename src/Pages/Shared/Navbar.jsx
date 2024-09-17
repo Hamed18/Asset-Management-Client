@@ -11,7 +11,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user && user.email) {
-      const url = `http://localhost:4000/users/${user.email}`;
+      const url = `https://asset-management-server-nine.vercel.app/users/${user.email}`;
       fetch(url)
         .then((res) => {
           if (!res.ok) {
@@ -61,7 +61,7 @@ const Navbar = () => {
         </>
       ) : (
         <>
-          <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+          <li><NavLink to="/dashboard/employeeHome">Dashboard</NavLink></li>
           <li><NavLink to="/employeeAssets">My Request</NavLink></li>
           <li><NavLink to="/employeeTeam">My Team</NavLink></li>
           <li><NavLink to="/employeeRequest">Request for an Asset</NavLink></li>

@@ -52,17 +52,17 @@ export const router = createBrowserRouter([
         {
           path : 'employeeAssets',
           element : <MyAssets></MyAssets>,
-          loader: () => fetch('http://localhost:4000/allAssets')
+          loader: () => fetch('https://asset-management-server-nine.vercel.app/allAssets')
         },
         {
           path : 'employeeTeam',
           element : <MyTeam></MyTeam>,
-          loader: () => fetch('http://localhost:4000/users')
+          loader: () => fetch('https://asset-management-server-nine.vercel.app/users')
         },
         {
           path : 'employeeRequest',
           element : <RequestAsset></RequestAsset>,
-          loader: () => fetch('http://localhost:4000/allAssets')
+          loader: () => fetch('https://asset-management-server-nine.vercel.app/allAssets')
         },
         {
           path : 'employeeProfile',
@@ -83,17 +83,18 @@ export const router = createBrowserRouter([
         {
           path : 'employeeAssets',
           element : <MyAssets></MyAssets>,
-          loader: () => fetch('http://localhost:4000/allAssets')
+          loader: () => fetch('https://asset-management-server-nine.vercel.app/allAssets')
         },
         {
           path : 'employeeTeam',
           element : <MyTeam></MyTeam>,
-          loader: () => fetch('http://localhost:4000/users')
+          loader: () => fetch('https://asset-management-server-nine.vercel.app/users')
         },
         {
           path : 'employeeRequest',
           element : <RequestAsset></RequestAsset>,
-          loader: () => fetch('http://localhost:4000/allAssets')
+          loader: () => fetch('https://asset-management-server-nine.vercel.app/allAssets')
+
         },
         {
           path : 'employeeProfile',

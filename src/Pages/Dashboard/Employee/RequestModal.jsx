@@ -18,7 +18,7 @@ const RequestModal = ({ asset, user, onClose,id }) => {
 
     console.log("Request Data:", requestData);
 
-	fetch(`http://localhost:4000/allAssets/${id}`,{
+	fetch(`https://asset-management-server-nine.vercel.app/allAssets/${id}`,{
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json'
