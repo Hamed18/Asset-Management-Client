@@ -20,6 +20,7 @@ import AddEmployee from "../Pages/Dashboard/HRManager/AddEmployee";
 import AddAsset from "../Pages/Dashboard/HRManager/AddAsset";
 import AssetList from "../Pages/Dashboard/HRManager/AssetList";
 import EmployeeList from "../Pages/Dashboard/HRManager/EmployeeList";
+import EmployeeProfile from "../Pages/Dashboard/Employee/EmployeeProfile";
 
 export const router = createBrowserRouter([
   {
@@ -42,7 +43,30 @@ export const router = createBrowserRouter([
       {
           path: '/login',
           element: <Login></Login>
-      }
+      },
+            // Employee
+        {
+          path : 'employeeHome',
+          element : <EmployeeHome></EmployeeHome>
+        },
+        {
+          path : 'employeeAssets',
+          element : <MyAssets></MyAssets>
+        },
+        {
+          path : 'employeeTeam',
+          element : <MyTeam></MyTeam>
+        },
+        {
+          path : 'employeeRequest',
+          element : <RequestAsset></RequestAsset>,
+          loader: () => fetch('http://localhost:4000/allAssets')
+        },
+        {
+          path : 'employeeProfile',
+          element : <EmployeeProfile></EmployeeProfile>
+        },
+
     ]
   },
   {
@@ -65,6 +89,10 @@ export const router = createBrowserRouter([
         {
           path : 'employeeRequest',
           element : <RequestAsset></RequestAsset>
+        },
+        {
+          path : 'employeeProfile',
+          element : <EmployeeProfile></EmployeeProfile>
         },
         // HR (admin) only routes
         {

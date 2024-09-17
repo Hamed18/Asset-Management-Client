@@ -104,11 +104,6 @@ import useAuth from "../hooks/useAuth";
 			</li>
 		  </ul>
 		  <br />
-		  <div className="mx-2 text-center">
-			<h3>Your Profile</h3>
-			<h3>Name: {user.displayName}</h3>
-			<h3>Email: {user.email}</h3>
-		  </div>
 		</div>
 		{/* dashboard content */}
 		<div className="flex-1 p-8">

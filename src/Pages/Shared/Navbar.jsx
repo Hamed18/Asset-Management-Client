@@ -61,11 +61,11 @@ const Navbar = () => {
         </>
       ) : (
         <>
-          <li><NavLink to="/dashboard/employeeHome">Dashboard</NavLink></li>
-          <li><NavLink to="/dashboard/myAssets">My Assets</NavLink></li>
-          <li><NavLink to="/dashboard/myTeam">My Team</NavLink></li>
-          <li><NavLink to="/dashboard/requestForAsset">Request for an Asset</NavLink></li>
-          <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
+          <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+          <li><NavLink to="/myAssets">My Assets</NavLink></li>
+          <li><NavLink to="/myTeam">My Team</NavLink></li>
+          <li><NavLink to="/employeeRequest">Request for an Asset</NavLink></li>
+          <li><NavLink to="/employeeProfile">Profile</NavLink></li>
         </>
       )}
       <li>
